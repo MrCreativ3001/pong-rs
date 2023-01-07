@@ -79,7 +79,6 @@ const SCORE_COUNTDOWN_COLOR: Color = GREEN;
 /// Font size for the countdown after someone has scored.
 const SCORE_COUNTDOWN_SIZE: FontSize = 30;
 
-// TODO: Render score
 struct Game {
     // OpenGL Backend
     gl: GlGraphics,
