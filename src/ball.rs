@@ -1,5 +1,4 @@
-use graphics::{rectangle, Context};
-use opengl_graphics::GlGraphics;
+use graphics::{rectangle, Context, Graphics};
 use std::ops::Range;
 
 use crate::{BALL_COLOR, BALL_SIZE};
@@ -38,13 +37,13 @@ impl Ball {
     }
 
     /// Renders the ball.
-    pub fn render(&self, context: &Context, gl: &mut GlGraphics) {
+    pub fn render<G>(&self, context: &Context, graphics: &mut G) where G: Graphics {
         let rect = [
             self.x as f64,
             self.y as f64,
             BALL_SIZE.0 as f64,
             BALL_SIZE.1 as f64,
         ];
-        rectangle(BALL_COLOR, rect, context.transform, gl);
+        rectangle(BALL_COLOR, rect, context.transform, graphics);
     }
 }

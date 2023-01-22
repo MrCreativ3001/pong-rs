@@ -1,8 +1,7 @@
 use std::mem::swap;
 use std::ops::Range;
 
-use graphics::{rectangle, Context};
-use opengl_graphics::GlGraphics;
+use graphics::{rectangle, Context, Graphics};
 use piston::UpdateArgs;
 
 use crate::{PADDLE_BORDER_GAP, PADDLE_COLOR, PADDLE_SIZE, PADDLE_SPEED, WINDOW_SIZE};
@@ -116,7 +115,7 @@ impl Paddle {
     }
 
     /// Renders the paddle.
-    pub fn render(&self, context: &Context, gl: &mut GlGraphics) {
+    pub fn render<G>(&self, context: &Context, graphics: &mut G) where G: Graphics {
         let x = self.calculate_x();
 
         // Create a rectangle using the paddle size
@@ -127,6 +126,6 @@ impl Paddle {
             PADDLE_SIZE.1 as f64,
         ];
         // Render the paddle as a rectangle at the position of the transform
-        rectangle(PADDLE_COLOR, rect, context.transform, gl);
+        rectangle(PADDLE_COLOR, rect, context.transform, graphics);
     }
 }
