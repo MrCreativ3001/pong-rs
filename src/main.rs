@@ -4,7 +4,7 @@ extern crate opengl_graphics;
 extern crate piston;
 
 use glutin_window::GlutinWindow as Window;
-use graphics::color::{BLACK, BLUE, GREEN, RED};
+use graphics::color::{BLACK, BLUE, GREEN, RED, WHITE};
 use graphics::types::{Color, FontSize};
 use graphics::{clear, Transformed};
 use opengl_graphics::{GlGraphics, GlyphCache, OpenGL, TextureSettings};
@@ -34,7 +34,7 @@ const WINDOW_SIZE: (u32, u32) = (1000, 500);
 const BACKGROUND_COLOR: Color = BLACK;
 
 /// The color of every paddle
-const PADDLE_COLOR: Color = RED;
+const PADDLE_COLOR: Color = WHITE;
 /// The gap between the window border with the smallest distance to the player.
 /// If it is the first player this is the left border and for the second player the right border.
 /// For more information on rendering a paddle look at [`render::render_paddle`]
@@ -53,7 +53,7 @@ const BUTTON_PLAYER_2_UP: Key = Key::Up;
 const BUTTON_PLAYER_2_DOWN: Key = Key::Down;
 
 /// The color of the ball
-const BALL_COLOR: Color = BLUE;
+const BALL_COLOR: Color = WHITE;
 const BALL_SIZE: (u32, u32) = (10, 10);
 /// The starting velocity of the ball for the x axis.
 /// The y axis will be random between START_BALL_VELOCITY and -START_BALL_VELOCITY at the start
@@ -65,7 +65,7 @@ const BALL_MULTIPLIER: f64 = 1.1;
 const FONT: &[u8] = include_bytes!("../roboto-font/Roboto-Regular.ttf");
 
 /// The color for the score of player one and two
-const SCORE_COLOR: Color = GREEN;
+const SCORE_COLOR: Color = WHITE;
 /// The size of the score for player one and two
 const SCORE_SIZE: FontSize = 30;
 /// The gap between the top of the window and the score.
@@ -75,7 +75,7 @@ const SCORE_Y_GAP: f64 = 50.0;
 /// The countdown after someone has scored in seconds.
 const SCORE_COUNTDOWN: f64 = 4.0;
 /// Color for the countdown after someone has scored.
-const SCORE_COUNTDOWN_COLOR: Color = GREEN;
+const SCORE_COUNTDOWN_COLOR: Color = WHITE;
 /// Font size for the countdown after someone has scored.
 const SCORE_COUNTDOWN_SIZE: FontSize = 30;
 
