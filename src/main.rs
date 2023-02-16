@@ -38,13 +38,13 @@ const PADDLE_COLOR: Color = RED;
 /// The gap between the window border with the smallest distance to the player.
 /// If it is the first player this is the left border and for the second player the right border.
 /// For more information on rendering a paddle look at [`render::render_paddle`]
-const PADDLE_BORDER_GAP: f32 = 50.0;
+const PADDLE_BORDER_GAP: f64 = 50.0;
 /// The size of the paddle.
 /// For more information on rendering a paddle look at [`render::render_paddle`]
 const PADDLE_SIZE: (u32, u32) = (20, 50);
 
 /// The speed of the paddle if the up or down button was pressed.
-const PADDLE_SPEED: f32 = 225.0;
+const PADDLE_SPEED: f64 = 225.0;
 
 // Controls
 const BUTTON_PLAYER_1_UP: Key = Key::W;
@@ -57,9 +57,9 @@ const BALL_COLOR: Color = BLUE;
 const BALL_SIZE: (u32, u32) = (10, 10);
 /// The starting velocity of the ball for the x axis.
 /// The y axis will be random between START_BALL_VELOCITY and -START_BALL_VELOCITY at the start
-const START_BALL_VELOCITY: f32 = 200.0;
+const START_BALL_VELOCITY: f64 = 200.0;
 /// The multiplier of the ball velocity after it has hit a paddle.
-const BALL_MULTIPLIER: f32 = 1.1;
+const BALL_MULTIPLIER: f64 = 1.1;
 
 /// The font used for the score and the countdown
 const FONT: &[u8] = include_bytes!("../roboto-font/Roboto-Regular.ttf");
@@ -141,7 +141,7 @@ impl Game {
         }
 
         // Update all objects
-        let y_range = 0f32..(WINDOW_SIZE.1 as f32);
+        let y_range = 0.0..(WINDOW_SIZE.1 as f64);
         self.player_1.update(update_args, y_range.clone());
         self.player_2.update(update_args, y_range.clone());
         self.ball.update(update_args, y_range);
@@ -160,9 +160,9 @@ impl Game {
         }
 
         // See if an someone has scored
-        if self.ball.x <= 0.0 - (BALL_SIZE.0 as f32) {
+        if self.ball.x <= 0.0 - (BALL_SIZE.0 as f64) {
             self.scored(&Player::Two);
-        } else if self.ball.x >= (WINDOW_SIZE.0 as f32) {
+        } else if self.ball.x >= (WINDOW_SIZE.0 as f64) {
             self.scored(&Player::One);
         }
     }
@@ -176,8 +176,8 @@ impl Game {
             timer: SCORE_COUNTDOWN,
         };
         // reset ball position
-        self.ball.x = (WINDOW_SIZE.0 as f32) / 2.0;
-        self.ball.y = (WINDOW_SIZE.1 as f32) / 2.0;
+        self.ball.x = (WINDOW_SIZE.0 as f64) / 2.0;
+        self.ball.y = (WINDOW_SIZE.1 as f64) / 2.0;
         // reset ball velocity
         self.ball.x_velocity = START_BALL_VELOCITY;
     }
@@ -195,25 +195,25 @@ impl Game {
 
     fn is_paddle_colliding_with_ball(paddle: &Paddle, ball: &Ball) -> bool {
         return Self::is_box_colliding_with_box(
-            paddle.calculate_x(),
+            paddle.x(),
             paddle.y(),
-            PADDLE_SIZE.0 as f32,
-            PADDLE_SIZE.1 as f32,
+            PADDLE_SIZE.0 as f64,
+            PADDLE_SIZE.1 as f64,
             ball.x,
             ball.y,
-            BALL_SIZE.0 as f32,
-            BALL_SIZE.1 as f32,
+            BALL_SIZE.0 as f64,
+            BALL_SIZE.1 as f64,
         );
     }
     fn is_box_colliding_with_box(
-        b1x: f32,
-        b1y: f32,
-        b1w: f32,
-        b1h: f32,
-        b2x: f32,
-        b2y: f32,
-        b2w: f32,
-        b2h: f32,
+        b1x: f64,
+        b1y: f64,
+        b1w: f64,
+        b1h: f64,
+        b2x: f64,
+        b2y: f64,
+        b2w: f64,
+        b2h: f64,
     ) -> bool {
         return b1x <= b2x + b2w && b1x + b1w >= b2x && b1y <= b2y + b2h && b1y + b1h >= b2y;
     }
@@ -318,15 +318,15 @@ fn main() {
 
         state: GameState::Pause,
 
-        player_1: Paddle::new(Player::One, (WINDOW_SIZE.1 as f32) / 2.0),
+        player_1: Paddle::new(PADDLE_BORDER_GAP, (WINDOW_SIZE.1 as f64) / 2.0),
         player_1_score: 0,
-        player_2: Paddle::new(Player::Two, (WINDOW_SIZE.1 as f32) / 2.0),
+        player_2: Paddle::new((WINDOW_SIZE.0 as f64) - PADDLE_BORDER_GAP - (PADDLE_SIZE.0 as f64), (WINDOW_SIZE.1 as f64) / 2.0),
         player_2_score: 0,
 
         ball: Ball {
-            x: (WINDOW_SIZE.0 as f32) / 2.0,
+            x: (WINDOW_SIZE.0 as f64) / 2.0,
             x_velocity: START_BALL_VELOCITY,
-            y: (WINDOW_SIZE.1 as f32) / 2.0,
+            y: (WINDOW_SIZE.1 as f64) / 2.0,
             y_velocity: rng.gen_range(-START_BALL_VELOCITY..START_BALL_VELOCITY),
         },
         rng,
@@ -350,3 +350,12 @@ fn main() {
         }
     }
 }
+
+// pub fn calculate_x(&self) -> f32 {
+//     match self.player() {
+//         // The first player is on the left side of the screen
+//         Player::One => PADDLE_BORDER_GAP,
+//         // The second player is on the right side of the screen
+//         Player::Two => (WINDOW_SIZE.0 as f32) - PADDLE_BORDER_GAP - (PADDLE_SIZE.0 as f32),
+//     }
+// }
