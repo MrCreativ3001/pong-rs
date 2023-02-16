@@ -350,12 +350,3 @@ fn main() {
         }
     }
 }
-
-// pub fn calculate_x(&self) -> f32 {
-//     match self.player() {
-//         // The first player is on the left side of the screen
-//         Player::One => PADDLE_BORDER_GAP,
-//         // The second player is on the right side of the screen
-//         Player::Two => (WINDOW_SIZE.0 as f32) - PADDLE_BORDER_GAP - (PADDLE_SIZE.0 as f32),
-//     }
-// }
