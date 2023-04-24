@@ -6,7 +6,7 @@ use crate::game_state::{
 use crate::paddle::Paddle;
 use crate::{
     BALL_MULTIPLIER, BALL_SIZE, BUTTON_PLAYER_1_DOWN, BUTTON_PLAYER_1_UP, BUTTON_PLAYER_2_DOWN,
-    BUTTON_PLAYER_2_UP, SCORE_COLOR, SCORE_SIZE, SCORE_Y_GAP,
+    BUTTON_PLAYER_2_UP, SCORE_COLOR, SCORE_COUNTDOWN, SCORE_SIZE, SCORE_Y_GAP,
 };
 use crate::{PADDLE_BORDER_GAP, PADDLE_SIZE, START_BALL_VELOCITY, WINDOW_SIZE};
 use graphics::Transformed;
@@ -130,7 +130,7 @@ impl PlayState {
         }
 
         GameState::Countdown(Box::new(CountdownState::new(
-            Duration::from_secs(3),
+            Duration::from_secs_f64(SCORE_COUNTDOWN),
             GameState::Play(Box::new(self)),
         )))
     }
