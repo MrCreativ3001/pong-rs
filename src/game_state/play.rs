@@ -3,10 +3,10 @@ use crate::game_state::countdown::CountdownState;
 use crate::game_state::{
     GameImpl, GameOptions, GameState, GameStateTrait, GraphicsImpl, GraphicsOptions,
 };
-use crate::paddle::{Paddle, PaddleInput};
+use crate::paddle::Paddle;
 use crate::{
     BALL_MULTIPLIER, BALL_SIZE, BUTTON_PLAYER_1_DOWN, BUTTON_PLAYER_1_UP, BUTTON_PLAYER_2_DOWN,
-    BUTTON_PLAYER_2_UP, SCORE_COLOR, SCORE_COUNTDOWN_SIZE, SCORE_SIZE, SCORE_Y_GAP,
+    BUTTON_PLAYER_2_UP, SCORE_COLOR, SCORE_SIZE, SCORE_Y_GAP,
 };
 use crate::{PADDLE_BORDER_GAP, PADDLE_SIZE, START_BALL_VELOCITY, WINDOW_SIZE};
 use graphics::Transformed;
@@ -106,24 +106,17 @@ impl PlayState {
             .gen_range(-START_BALL_VELOCITY..START_BALL_VELOCITY);
     }
 
-    fn check_ball_scored<Impl: GameImpl>(
-        self,
-        options: &mut GameOptions<Impl>,
-    ) -> Result<Self, GameState> {
+    fn check_ball_scored(self) -> Result<Self, GameState> {
         // See if an someone has scored
         if self.ball.x <= 0.0 - (BALL_SIZE.0 as f64) {
-            return Err(self.scored(&PlayerId::Two, options));
+            return Err(self.scored(&PlayerId::Two));
         } else if self.ball.x >= (WINDOW_SIZE.0 as f64) {
-            return Err(self.scored(&PlayerId::One, options));
+            return Err(self.scored(&PlayerId::One));
         }
         return Ok(self);
     }
 
-    fn scored<Impl: GameImpl>(
-        mut self,
-        player: &PlayerId,
-        options: &mut GameOptions<Impl>,
-    ) -> GameState {
+    fn scored(mut self, player: &PlayerId) -> GameState {
         // Reset the ball position
         self.ball.x = (WINDOW_SIZE.0 as f64) / 2.0;
         self.ball.y = (WINDOW_SIZE.1 as f64) / 2.0;
@@ -172,7 +165,7 @@ impl<Impl: GameImpl> GameStateTrait<Impl> for PlayState {
 
         self.ball.update(args, y_range);
 
-        self.check_ball_scored(options)
+        self.check_ball_scored()
     }
 
     fn render(

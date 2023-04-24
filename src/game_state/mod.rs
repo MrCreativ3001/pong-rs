@@ -16,15 +16,15 @@ pub enum GameState {
 impl<Impl: GameImpl> GameStateTrait<Impl> for GameState {
     fn update(self, args: &UpdateArgs, options: &mut GameOptions<Impl>) -> Result<Self, GameState> {
         match self {
-            GameState::Invalid(mut state) => state
+            GameState::Invalid(state) => state
                 .update(args, options)
                 .map(|state| GameState::Invalid(Box::new(state))),
 
-            GameState::Countdown(mut state) => state
+            GameState::Countdown(state) => state
                 .update(args, options)
                 .map(|state| GameState::Countdown(Box::new(state))),
 
-            GameState::Play(mut state) => state
+            GameState::Play(state) => state
                 .update(args, options)
                 .map(|state| GameState::Play(Box::new(state))),
         }
@@ -98,7 +98,7 @@ pub trait GameStateTrait<Impl: GameImpl>: Sized {
 // invalid state
 pub struct Invalid;
 impl<Impl: GameImpl> GameStateTrait<Impl> for Invalid {
-    fn update(self, args: &UpdateArgs, options: &mut GameOptions<Impl>) -> Result<Self, GameState> {
+    fn update(self, _: &UpdateArgs, _: &mut GameOptions<Impl>) -> Result<Self, GameState> {
         unimplemented!("Test State")
     }
 

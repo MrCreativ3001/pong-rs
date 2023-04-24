@@ -3,30 +3,30 @@ extern crate graphics;
 extern crate opengl_graphics;
 extern crate piston;
 
-use game_state::play::PlayerId;
+
 use glutin_window::GlutinWindow as Window;
-use graphics::color::{BLACK, BLUE, GREEN, RED, WHITE};
+use graphics::color::{BLACK, WHITE};
 use graphics::types::{Color, FontSize};
-use graphics::{clear, Context, Transformed};
+use graphics::{clear};
 use opengl_graphics::{GlGraphics, GlyphCache, OpenGL, TextureSettings};
-use piston::Button::Keyboard;
+
 use piston::{
-    Button, ButtonArgs, EventSettings, Events, Key, PressEvent, ReleaseEvent, RenderArgs,
+    Button, EventSettings, Events, Key, PressEvent, ReleaseEvent, RenderArgs,
     RenderEvent, UpdateArgs, UpdateEvent, WindowSettings,
 };
 use rand::rngs::ThreadRng;
-use rand::{thread_rng, Rng};
+use rand::{thread_rng};
 use std::mem::swap;
-use std::ptr::null;
+
 use std::time::Duration;
 
-use crate::ball::Ball;
+
 use crate::game_state::countdown::CountdownState;
 use crate::game_state::play::PlayState;
 use crate::game_state::{
     GameImpl, GameOptions, GameState, GameStateTrait, GraphicsImpl, GraphicsOptions, Invalid,
 };
-use crate::paddle::Paddle;
+
 
 pub mod ball;
 pub mod game_state;
