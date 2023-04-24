@@ -4,12 +4,9 @@ use std::ops::Range;
 use graphics::{rectangle, Context, Graphics};
 use piston::UpdateArgs;
 
-use crate::{PADDLE_COLOR, PADDLE_SIZE, PADDLE_SPEED};
-
-pub enum Player {
-    One,
-    Two,
-}
+use crate::ball::Ball;
+use crate::game_state::play::PlayState;
+use crate::{BALL_SIZE, PADDLE_COLOR, PADDLE_SIZE, PADDLE_SPEED};
 
 pub enum PaddleInput {
     Up,
@@ -105,15 +102,26 @@ impl Paddle {
     }
 
     /// Renders the paddle.
-    pub fn render<G>(&self, context: &Context, graphics: &mut G) where G: Graphics {
+    pub fn render<G>(&self, context: &Context, graphics: &mut G)
+    where
+        G: Graphics,
+    {
         // Create a rectangle using the paddle size
-        let rect = [
-            self.x,
-            self.y,
-            PADDLE_SIZE.0 as f64,
-            PADDLE_SIZE.1 as f64,
-        ];
+        let rect = [self.x, self.y, PADDLE_SIZE.0 as f64, PADDLE_SIZE.1 as f64];
         // Render the paddle as a rectangle at the position of the transform
         rectangle(PADDLE_COLOR, rect, context.transform, graphics);
+    }
+
+    pub fn is_colliding_with_ball(&self, ball: &Ball) -> bool {
+        return PlayState::is_box_colliding_with_box(
+            self.x(),
+            self.y(),
+            PADDLE_SIZE.0 as f64,
+            PADDLE_SIZE.1 as f64,
+            ball.x,
+            ball.y,
+            BALL_SIZE.0 as f64,
+            BALL_SIZE.1 as f64,
+        );
     }
 }
